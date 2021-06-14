@@ -8,6 +8,7 @@
 
  Create Vue App:
  vue create "project name"
+ npm run serve
 
  JSON-Server:
  npm install json-server
