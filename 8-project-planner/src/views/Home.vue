@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <FilterNav @filterChange="current = $event" :current="current" /> <!-- $event - event from updateFilter -->
     <div v-if="projects.length"> 
       <!-- if array has a length, it outputs it here otherwise not -->
       <div v-for="project in projects" :key="project.id">
@@ -11,15 +12,18 @@
 
 <script>
 import SingleProject from '../components/SingleProject.vue'
+import FilterNav from '../components/FilterNav.vue'
 
 export default {
   name: 'Home',
   components: {
-    SingleProject
+    SingleProject,
+    FilterNav
   },
   data() {
     return {
-      projects: []
+      projects: [],
+      current: 'all'
     }
   },
   mounted() {
