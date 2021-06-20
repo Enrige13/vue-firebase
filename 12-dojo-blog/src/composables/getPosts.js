@@ -1,25 +1,22 @@
 import { ref } from 'vue'
+import { projectFirestore } from '../../firebase/config'
 
 const getPosts = () => {
-    const posts = ref([
-        //   { title: 'welcome to the blog', body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.', id: 1 },
-        //   { title: 'top 5 css tips', body: 'Lorem ipsum', id: 2 },
-    ])
+    const posts = ref([])
     const error = ref(null)
 
     const load = async () => {
         try {
-            // simulate delay
-            // await new Promise(resolve => {
-            //     setTimeout(resolve, 2000)
-            // })
-            
-            let data = await fetch('http://localhost:3000/posts')
-            //   console.log(data)
-            if (!data.ok) {
-                throw Error('no data available')
-            }
-            posts.value = await data.json() // asynchron
+            const res = await projectFirestore.collection('posts').get()
+            // .collection() - connection to firestore collection posts
+            // .get() - gets the data (async)
+            // console.log(res) - console.log(res.docs) 
+            // docs - document array
+
+            posts.value = res.docs.map(doc => {
+                // console.log(doc.data())
+                return { ...doc.data(), id: doc.id } // grab all 3 values and adds it to the object, and id property
+            })
         } 
         catch (err) {
             error.value = err.message
