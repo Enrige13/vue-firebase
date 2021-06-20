@@ -14,3 +14,5 @@
  npm install json-server
  json-server --watch data/db.json
  
+ Firebase Package:
+ npm install firebase
