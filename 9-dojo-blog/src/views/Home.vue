@@ -5,7 +5,9 @@
     <div v-if="posts.length">
         <PostList :posts="posts" />
     </div>
-    <div v-else>Loading...</div>
+    <div v-else>
+      <Spinner />
+    </div>
     <!-- <PostList v-if="showPosts" :posts="posts" /> -->
     <!-- <button @click="showPosts = !showPosts">toggle posts</button>
     <button @click="posts.pop()">delete a post</button> -->
@@ -15,11 +17,13 @@
 <script>
 import PostList from '../components/PostList.vue'
 import getPosts from '../composables/getPosts'
+import Spinner from '../components/Spinner.vue'
 
 export default {
   name: 'Home',
   components: {
-      PostList
+      PostList,
+      Spinner
   },
   setup() {
     const { posts, error, load } = getPosts()
