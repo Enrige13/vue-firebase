@@ -9,6 +9,8 @@
 <script>
 import SinglePost from './SinglePost.vue'
 import { onMounted, onUnmounted, onUpdated } from 'vue'
+import { ref } from 'vue'
+import { projectFirestore } from '../../firebase/config'
 
 export default {
     props: ['posts'],
@@ -16,10 +18,19 @@ export default {
         SinglePost
     },
     setup(props) {
-        // console.log(props.posts)1
-        // onMounted(() => console.log('component mounted'))
-        // onUnmounted(() => console.log('component unmounted'))
-        // onUpdated(() => console.log('component updated'))
+        const posts = ref([])
+
+        projectFirestore.collection('posts')
+            .orderBy('createdAt', 'desc')
+            .onSnapshot((snap) => {
+                let docs = snap.docs.map(doc => {
+                    return { ...doc.data(), id: doc.id }
+                })
+
+                posts.value = docs
+            }) 
+
+        return { posts }
     },
 }
 </script>
