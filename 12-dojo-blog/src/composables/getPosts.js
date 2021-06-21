@@ -7,7 +7,9 @@ const getPosts = () => {
 
     const load = async () => {
         try {
-            const res = await projectFirestore.collection('posts').get()
+            const res = await projectFirestore.collection('posts')
+                .orderBy('createdAt', 'desc')
+                .get()
             // .collection() - connection to firestore collection posts
             // .get() - gets the data (async)
             // console.log(res) - console.log(res.docs) 
