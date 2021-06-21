@@ -1,71 +1,61 @@
 <template>
   <div class="create">
-      <form @submit.prevent="handleSubmit">
-          <label>Title:</label>
-          <input v-model="title" type="text" required>
-          <label>Content:</label>
-          <textarea v-model="body" required></textarea>
-          <label>Tags (hit enter to add a tag)</label>
-          <input 
-            v-model="tag" 
-            type="text"
-            @keydown.enter.prevent="handleKeydown"
-          >
-          <div v-for="tag in tags" :key="tag" class="pill">
-              #{{ tag }}
-          </div>
-          <button>Add Post</button>
-      </form>
+    <form @submit.prevent="handleSubmit">
+      <label>Title:</label>
+      <input v-model="title" type="text" required>
+      <label>Content:</label>
+      <textarea v-model="body" required></textarea>
+      <label>Tags (hit enter to add a tag):</label>
+      <input 
+        @keydown.enter.prevent="handleKeydown" 
+        v-model="tag" 
+        type="text"
+      >
+      <div v-for="tag in tags" :key="tag" class="pill">
+        #{{ tag }}
+      </div>
+      <button>Add Post</button>
+    </form>
   </div>
 </template>
 
 <script>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { projectFirestore } from '../../firebase/config'
 
 export default {
-    setup() {
-        const title = ref('')
-        const body = ref('')
-        const tag = ref('')
-        const tags = ref([])
+  setup() {
+    const title = ref('')
+    const body = ref('')
+    const tags = ref([])
+    const tag = ref('')
+    const router = useRouter()
 
-        const router = useRouter()
-        // console.log(router)
-        // router.go(-1)
-        // router.push('/')
-
-        const handleKeydown = () => {
-            if (!tags.value.includes(tag.value)) {
-                tag.value = tag.value.replace(/\s/, '') // removes all whitespace
-                tags.value.push(tag.value) // add value to array
-            }
-            tag.value = '' // 2 way data binding
-        }
-
-        const handleSubmit = async () => {
-            const post = {
-                // id: Math.floor(Math.random() * 10000),
-                title: title.value,
-                body: body.value,
-                tags: tags.value
-            }
-            await fetch('http://localhost:3000/posts', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json'},
-                body: JSON.stringify(post)
-            })
-
-            router.push({ name: 'Home'})
-        }
-
-        return { title, body, tag, handleKeydown, tags, handleSubmit }
+    const handleKeydown = () => {
+      if (!tags.value.includes(tag.value)) {
+        tag.value = tag.value.replace(/\s/g,'') // remove all whitespace
+        tags.value.push(tag.value)
+      }
+      tag.value = ''
     }
+    const handleSubmit = async () => {
+      const post = {
+        title: title.value,
+        body: body.value,
+        tags: tags.value
+      }
+      const res = await projectFirestore.collection('posts').add(post)
+      // console.log(res) // can see the id and path of doc created
+      router.push({ name: 'Home' })
+    }
+    return { body, title, tags, tag, handleKeydown, handleSubmit }
+  },
 }
 </script>
 
 <style>
-form {
+  form {
     max-width: 480px;
     margin: 0 auto;
     text-align: left;
