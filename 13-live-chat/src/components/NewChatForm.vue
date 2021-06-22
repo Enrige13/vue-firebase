@@ -5,7 +5,7 @@
             v-model="message"
             @keypress.enter.prevent="handleSubmit"
         ></textarea>
-        <div class="error">{{ error }}</div>
+        <div v-if="error" class="error">{{ error }}</div>
     </form>
 </template>
 
@@ -31,12 +31,12 @@ export default {
 
       // console.log(chat)
       await addDoc(chat)
-      if (!error) {
+      if (!error.value) {
         message.value = ''
       }
     }
 
-    return { message, handleSubmit, error,  }
+    return { message, handleSubmit, error }
   }
 }
 </script>
