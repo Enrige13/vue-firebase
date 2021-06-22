@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import getUser from '../../composables/getUser'
-import { timestamp } from '../../firebase/config'
+import getUser from '../composables/getUser'
+import { timestamp } from '../firebase/config'
 import { ref } from 'vue'
 
 export default {

@@ -5,7 +5,7 @@ import router from './router'
 import './assets/main.css'
 
 // import firebase auth service
-import { projectAuth } from '../firebase/config'
+import { projectAuth } from './firebase/config'
 
 let app
 

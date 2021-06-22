@@ -8,7 +8,7 @@
 <script>
 import NewChatForm from '../components/NewChatForm'
 import Navbar from '../components/Navbar.vue'
-import getUser from '../../composables/getUser'
+import getUser from '../composables/getUser'
 import { watch } from 'vue'
 import { useRouter } from 'vue-router'
 

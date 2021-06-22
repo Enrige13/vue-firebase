@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import useLogout from '../../composables/useLogout'
-import getUser from '../../composables/getUser'
+import useLogout from '../composables/useLogout'
+import getUser from '../composables/getUser'
 export default {
   setup() {
     const { logout, error } = useLogout()

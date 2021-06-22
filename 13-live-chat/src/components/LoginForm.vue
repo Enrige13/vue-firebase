@@ -9,7 +9,7 @@
 
 <script>
 import { ref } from 'vue'
-import useLogin from '../../composables/useLogin'
+import useLogin from '../composables/useLogin'
 
 export default {
     setup(props, context) {

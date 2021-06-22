@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Welcome from '../views/Welcome.vue'
 import Chatroom from '../views/Chatroom.vue'
-import { projectAuth } from '../../firebase/config'
+import { projectAuth } from '../firebase/config'
 
 // auth guard
 const requireAuth = (to, from, next) => {
